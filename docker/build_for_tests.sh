@@ -6,8 +6,7 @@ repo_base="quay.io/eris"
 tag="latest"
 
 dep=(
-  "golang:1.5"
-  "ubuntu:14.04"
+  "alpine:3.3"
 )
 
 tobuild=(
@@ -49,7 +48,7 @@ pull_deps() {
   done
 }
 
-build_and_push() {
+build() {
   ele=$1
   echo "Building => $repo_base/$ele:$tag"
   echo ""
@@ -58,14 +57,9 @@ build_and_push() {
   echo ""
   echo ""
   echo "Finished Building."
-  echo "Pushing => $ele:$tag"
-  echo ""
-  echo ""
-  docker push $repo_base/$ele:$tag 1>/dev/null
-  echo "Finished Pushing."
 }
 
-buildscript_and_push() {
+buildscript() {
   ele=$1
   echo "Building => $repo_base/$ele"
   echo ""
@@ -76,11 +70,6 @@ buildscript_and_push() {
   echo ""
   echo ""
   echo "Finished Building."
-  echo "Pushing => $ele"
-  echo ""
-  echo ""
-  docker push $repo_base/$ele 1>/dev/null
-  echo "Finished Pushing."
 }
 
 pull_deps
@@ -88,13 +77,13 @@ pull_deps
 for ele in "${tobuild[@]}"
 do
   set -e
-  build_and_push $ele
+  build $ele
   set +e
 done
 
 for ele in "${tobuildscript[@]}"
 do
   set -e
-  buildscript_and_push $ele
+  buildscript $ele
   set +e
 done
