@@ -1,7 +1,7 @@
 FROM alpine:3.3
 MAINTAINER Eris Industries <support@erisindustries.com>
 
-RUN apk update; apk add go git
+RUN apk update; apk add go git bash
 
 # Add vendor support to Go
 ENV GO15VENDOREXPERIMENT 1
@@ -20,7 +20,7 @@ ENV INSTALL_BASE /usr/local/bin
 # https://github.com/boot2docker/boot2docker/issues/581#issuecomment-62491280
 ENV USER eris
 ENV ERIS /home/$USER/.eris
-RUN addgroup -S $USER && adduser -S -D -u 1000 $USER $USER
+RUN addgroup -S $USER && adduser -s /bin/bash -S -D -u 1000 $USER $USER
 
 # All common/go/common/dirs_and_files.go MajorDirs should be available for dumping into.
 # except the scratch directories.
